@@ -14,7 +14,7 @@
 <meta property="og:image:width" content="1200">
 <meta property="og:image:height" content="630">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="theme-color" content="#1a0e33">
+<meta name="theme-color" content="#0d0716">
 <meta name="color-scheme" content="dark">
 <link rel="icon" href="favicon.ico" sizes="48x48">
 <link rel="icon" href="favicon.png" type="image/png" sizes="192x192">
@@ -43,13 +43,18 @@
     --bg: #0b0716; --card: #0d0918; --fg: #eee7ff; --muted: #c4a6d6;
     --link-line: #6b2f80; --link-hover: #f9a8d4; --ctl: #cbbff0; --ctl-line: #c04bd8;
   }
-  html { background: var(--bg); }
+  /* iOS Safari paints both its top and bottom bars with the root background,
+     so the gradient below starts and ends on this exact colour. */
+  html { background: #0d0716; }
   html, body { margin: 0; height: 100%; color: var(--fg); }
-  /* violet dusk fading to near-black, with a faint pink horizon at the bottom edge */
-  body {
+  /* Violet dusk fading to near-black, with a faint pink horizon at the bottom edge.
+     A fixed layer of the large-viewport height, so it also runs under the browser's toolbars. */
+  body::before {
+    content: ""; position: fixed; left: 0; right: 0; top: 0; z-index: -1;
+    height: 100vh; height: 100lvh;
     background:
-      radial-gradient(ellipse 80% 30% at 50% 108%, rgba(236, 72, 153, .2), transparent 70%),
-      linear-gradient(180deg, #1a0e33 0%, #0b0716 65%, #0f0617 100%);
+      radial-gradient(ellipse 80% 24% at 50% 82%, rgba(236, 72, 153, .16), transparent 50%),
+      linear-gradient(180deg, #0d0716 0%, #1a0e33 22%, #0b0716 70%, #0d0716 100%);
   }
   body {
     font: 15px/1.6 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
