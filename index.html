@@ -1,0 +1,409 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Krystian Pudlik — Software Architect</title>
+<meta name="description" content="Krystian Pudlik — Software Architect, Poland.">
+<link rel="canonical" href="https://pudlik.dev/">
+<meta property="og:type" content="profile">
+<meta property="og:url" content="https://pudlik.dev/">
+<meta property="og:title" content="Krystian Pudlik">
+<meta property="og:description" content="Software Architect · Poland">
+<meta property="og:image" content="https://pudlik.dev/avatar.jpg">
+<meta name="twitter:card" content="summary">
+<meta name="theme-color" id="theme-color" content="#0e0a1a">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Person",
+  "name": "Krystian Pudlik",
+  "url": "https://pudlik.dev/",
+  "image": "https://pudlik.dev/avatar.jpg",
+  "jobTitle": "Software Architect",
+  "address": { "@type": "PostalAddress", "addressCountry": "PL" },
+  "email": "mailto:kontakt@pudlik.dev",
+  "sameAs": [
+    "https://github.com/kpudlik",
+    "https://www.linkedin.com/in/krystianpudlik/"
+  ]
+}
+</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<script>
+  (function () {
+    var t;
+    try { t = localStorage.getItem('theme'); } catch (e) {}
+    if (t !== 'light' && t !== 'dark') t = matchMedia('(prefers-color-scheme: light)').matches ? 'light' : 'dark';
+    document.documentElement.setAttribute('data-theme', t);
+  })();
+</script>
+<style>
+  :root[data-theme="dark"] {
+    --bg: #0e0a1a; --fg: #eee7ff; --muted: #a99cc9; --line: #2c2250;
+    --link-line: #4a3a78; --link-hover: #b796ff; --ctl: #cbbff0; --ctl-line: #3a2d63;
+  }
+  :root[data-theme="light"] {
+    --bg: #f3effb; --fg: #21154a; --muted: #5a4d7d; --line: #d9cdf2;
+    --link-line: #b9a6e6; --link-hover: #5b2fd6; --ctl: #4a3d74; --ctl-line: #cbbdf0;
+  }
+  html, body { margin: 0; height: 100%; background: var(--bg); color: var(--fg); }
+  body {
+    font: 15px/1.6 'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, monospace;
+    -webkit-font-smoothing: antialiased;
+    overflow: hidden;
+    transition: background-color .4s, color .4s;
+  }
+  #fx { position: fixed; inset: 0; width: 100%; height: 100%; display: block; touch-action: none; }
+
+  main {
+    position: relative; box-sizing: border-box;
+    min-height: 100vh; min-height: 100svh;
+    display: flex; padding: 32px clamp(16px, 4vw, 48px);
+    pointer-events: none;
+  }
+  main > * { pointer-events: auto; }
+  [data-theme="dark"] main { align-items: flex-end; justify-content: flex-start; }
+  [data-theme="light"] main { align-items: center; justify-content: center; }
+
+  .card {
+    background: var(--bg); border: 1px solid var(--line); border-radius: 14px;
+    box-sizing: border-box; max-width: 100%;
+    display: flex; align-items: center; gap: 20px; flex-wrap: wrap;
+    transition: background-color .4s, border-color .4s;
+  }
+  [data-theme="dark"] .card { padding: 20px 24px; }
+  [data-theme="light"] .card { padding: 32px; width: 460px; box-shadow: 0 0 0 10px var(--bg); }
+  .photo {
+    display: none; width: 92px; height: 92px; border-radius: 50%; object-fit: cover;
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 3px #7c4dff;
+  }
+  [data-theme="light"] .photo { display: block; }
+  .info { display: flex; flex-direction: column; gap: 6px; min-width: 0; }
+  h1 { margin: 0; font-weight: 500; line-height: 1.2; font-size: 20px; }
+  [data-theme="light"] h1 { font-size: 26px; font-weight: 600; }
+  .role { margin: 0; color: var(--muted); }
+  nav { display: flex; flex-wrap: wrap; gap: 6px 24px; margin-top: 4px; }
+  nav a { color: var(--fg); text-decoration: none; border-bottom: 1px solid var(--link-line); padding-bottom: 2px; }
+  nav a:hover, nav a:focus-visible { color: var(--link-hover); border-bottom-color: var(--link-hover); outline: none; }
+
+  .ctl {
+    position: fixed; z-index: 2;
+    font: inherit; font-size: 13px; color: var(--ctl);
+    background: var(--bg); border: 1px solid var(--ctl-line); border-radius: 8px;
+    min-height: 40px; padding: 8px 12px; cursor: pointer;
+    display: inline-flex; align-items: center; gap: 8px;
+  }
+  .ctl:hover, .ctl:focus-visible { color: var(--fg); border-color: var(--link-hover); outline: none; }
+  #theme { top: 16px; right: 16px; width: 44px; height: 44px; padding: 0; justify-content: center; }
+  #theme svg { width: 18px; height: 18px; }
+  #rebuild { right: clamp(16px, 4vw, 48px); bottom: 32px; }
+  [data-theme="light"] #rebuild { display: none; }
+  .hint {
+    position: fixed; left: 0; right: 0; bottom: 14px; margin: 0; z-index: 1;
+    text-align: center; font-size: 12px; color: var(--muted); pointer-events: none;
+  }
+  [data-theme="dark"] .hint { display: none; }
+  .sr { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+
+  @media (max-width: 640px) {
+    [data-theme="dark"] main { padding-bottom: 88px; }
+    #rebuild { left: 16px; right: auto; bottom: 24px; }
+    [data-theme="light"] .card { padding: 24px; }
+  }
+</style>
+<noscript><style>.photo { display: block !important; } #rebuild, #theme, .hint { display: none !important; }</style></noscript>
+</head>
+<body>
+<canvas id="fx" aria-hidden="true"></canvas>
+
+<main>
+  <div class="card" id="card">
+    <img class="photo" src="avatar.jpg" alt="Krystian Pudlik" width="92" height="92">
+    <div class="info">
+      <h1>Krystian Pudlik</h1>
+      <p class="role">Software Architect · Poland</p>
+      <nav aria-label="Links">
+        <a href="https://github.com/kpudlik" rel="me">github</a>
+        <a href="https://www.linkedin.com/in/krystianpudlik/" rel="me">linkedin</a>
+        <a href="mailto:kontakt@pudlik.dev">email</a>
+      </nav>
+    </div>
+  </div>
+</main>
+
+<button class="ctl" id="theme" type="button" aria-label="Switch to light theme"></button>
+<button class="ctl" id="rebuild" type="button">↻ scatter &amp; rebuild</button>
+<p class="hint" id="hint">move · click to switch the field</p>
+
+<script>
+(function () {
+  'use strict';
+
+  var root = document.documentElement;
+  var canvas = document.getElementById('fx');
+  var ctx = canvas.getContext('2d');
+  var card = document.getElementById('card');
+  var themeBtn = document.getElementById('theme');
+  var rebuildBtn = document.getElementById('rebuild');
+  var hint = document.getElementById('hint');
+  var themeMeta = document.getElementById('theme-color');
+  var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  var W = 0, H = 0, dpr = 1;
+  var pointer = null, lastMove = -1e9;
+  var fx = null;
+
+  var img = new Image();
+  var imgReady = false;
+  img.onload = function () { imgReady = true; if (fx && fx.resize) fx.resize(); };
+  img.src = 'avatar.jpg';
+
+  var ICONS = {
+    sun: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></svg>',
+    moon: '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.8A9 9 0 1 1 11.2 3a7 7 0 0 0 9.8 9.8z"/></svg>'
+  };
+
+  // Crop of the avatar used for the portrait (source px).
+  var CROP = { x: 70, y: 40, s: 360 };
+
+  function sampleImage(n) {
+    var off = document.createElement('canvas');
+    off.width = n; off.height = n;
+    var o = off.getContext('2d');
+    o.drawImage(img, CROP.x, CROP.y, CROP.s, CROP.s, 0, 0, n, n);
+    var d;
+    try { d = o.getImageData(0, 0, n, n).data; } catch (e) { return null; }
+    var lum = new Float32Array(n * n), lo = 255, hi = 0;
+    for (var i = 0; i < n * n; i++) {
+      var v = 0.299 * d[i * 4] + 0.587 * d[i * 4 + 1] + 0.114 * d[i * 4 + 2];
+      lum[i] = v; if (v < lo) lo = v; if (v > hi) hi = v;
+    }
+    for (var j = 0; j < n * n; j++) lum[j] = (lum[j] - lo) / Math.max(1, hi - lo);
+    return lum;
+  }
+
+  function mix(a, b, k) {
+    var pa = parseInt(a.slice(1), 16), pb = parseInt(b.slice(1), 16);
+    function ch(s) { var x = (pa >> s) & 255; return Math.round(x + (((pb >> s) & 255) - x) * k); }
+    return 'rgb(' + ch(16) + ',' + ch(8) + ',' + ch(0) + ')';
+  }
+
+  // ---------- Dark: particles assemble into the portrait ----------
+  function Particles() {
+    var ps = [], targets = [], stage = null, step = 5, formed = false, formTimer = 0, busy = false;
+    var BAYER = [0, 8, 2, 10, 12, 4, 14, 6, 3, 11, 1, 9, 15, 7, 13, 5];
+
+    function computeStage() {
+      var cr = card.getBoundingClientRect();
+      var top = 72, bottom = Math.min(H - 24, cr.top - 24);
+      if (bottom - top < 200) bottom = H - 24;
+      stage = { x: W * 0.06, y: top, w: W * 0.88, h: Math.max(160, bottom - top) };
+      step = Math.max(4, Math.round(Math.min(stage.w, stage.h) / 110));
+    }
+
+    function portraitTargets() {
+      if (!imgReady) return [];
+      var size = Math.min(stage.w, stage.h), n = Math.floor(size / step);
+      var lum = sampleImage(n);
+      if (!lum) return [];
+      var ox = stage.x + (stage.w - size) / 2, oy = stage.y + (stage.h - size) / 2;
+      var pts = [];
+      for (var y = 0; y < n; y++) for (var x = 0; x < n; x++) {
+        var v = Math.pow(lum[y * n + x], 0.8);
+        // soft circular vignette so the portrait floats instead of sitting in a box
+        var r = Math.hypot(x / n - 0.5, y / n - 0.5) / 0.5;
+        if (r > 1 || (r > 0.82 && Math.random() < (r - 0.82) / 0.18)) continue;
+        if (v > (BAYER[(y % 4) * 4 + (x % 4)] + 0.5) / 16) {
+          pts.push({ x: ox + x * step, y: oy + y * step, a: 0.45 + 0.55 * v, row: y / n });
+        }
+      }
+      return pts;
+    }
+
+    function assign(jump) {
+      var N = targets.length;
+      if (!N) return;
+      while (ps.length < N) ps.push({ x: Math.random() * W, y: Math.random() * H, vx: 0, vy: 0, tx: 0, ty: 0, a: 0.35, ta: 0.35, d: 0 });
+      ps.length = N;
+      var order = targets.map(function (_, i) { return i; });
+      for (var i = order.length - 1; i > 0; i--) { var j = (Math.random() * (i + 1)) | 0; var t = order[i]; order[i] = order[j]; order[j] = t; }
+      ps.forEach(function (p, i) {
+        if (formed) {
+          var q = targets[order[i]];
+          p.tx = q.x; p.ty = q.y; p.ta = q.a;
+          p.d = reduce ? 0 : 6 + q.row * 40 + Math.random() * 25;
+        } else {
+          var ang = Math.random() * 6.283, r = Math.sqrt(Math.random());
+          p.tx = W / 2 + Math.cos(ang) * r * W * 0.55;
+          p.ty = H / 2 + Math.sin(ang) * r * H * 0.55;
+          p.ta = 0.35; p.d = Math.random() * 10;
+        }
+        if (reduce || jump) { p.x = p.tx; p.y = p.ty; p.a = p.ta; }
+      });
+    }
+
+    function setFormed(v) { formed = v; assign(false); }
+
+    return {
+      start: function () {
+        this.resize();
+        clearTimeout(formTimer);
+        formTimer = setTimeout(function () { setFormed(true); }, reduce ? 0 : 500);
+      },
+      stop: function () { clearTimeout(formTimer); },
+      resize: function () {
+        computeStage();
+        targets = portraitTargets();
+        assign(reduce);
+      },
+      rebuild: function () {
+        if (busy) return;
+        busy = true;
+        setFormed(false);
+        clearTimeout(formTimer);
+        formTimer = setTimeout(function () { setFormed(true); busy = false; }, reduce ? 0 : 1300);
+      },
+      click: function () {},
+      frame: function () {
+        var m = pointer, R = 100, sz = Math.max(1.6, step * 0.55);
+        for (var i = 0; i < ps.length; i++) {
+          var p = ps[i];
+          if (p.d > 0) { p.d--; } else {
+            p.vx += (p.tx - p.x) * 0.035; p.vy += (p.ty - p.y) * 0.035;
+            if (m) {
+              var dx = p.x - m.x, dy = p.y - m.y, dd = Math.hypot(dx, dy);
+              if (dd < R && dd > 0.1) { var f = (1 - dd / R) * 4; p.vx += dx / dd * f; p.vy += dy / dd * f; }
+            }
+            p.vx *= 0.85; p.vy *= 0.85;
+            p.x += p.vx; p.y += p.vy;
+            p.a += (p.ta - p.a) * 0.05;
+          }
+          if (p.a < 0.03) continue;
+          ctx.globalAlpha = p.a;
+          ctx.fillStyle = Math.abs(p.vx) + Math.abs(p.vy) > 1.5 ? '#9b6bff' : '#e6dcff';
+          ctx.fillRect(p.x - sz / 2, p.y - sz / 2, sz, sz);
+        }
+        ctx.globalAlpha = 1;
+      }
+    };
+  }
+
+  // ---------- Light: magnetic needles follow the cursor ----------
+  function Needles() {
+    var MODES = ['attract', 'orbit', 'repel'];
+    var mode = 0, needles = [], waves = [], born = 0;
+
+    function updateHint() { hint.textContent = 'move · click to switch the field (' + MODES[mode] + ')'; }
+
+    return {
+      start: function () { born = performance.now(); updateHint(); this.resize(); },
+      stop: function () {},
+      rebuild: function () {},
+      resize: function () {
+        var sp = W < 640 ? 22 : 26;
+        needles = [];
+        for (var y = sp / 2; y < H; y += sp) for (var x = sp / 2; x < W; x += sp) {
+          needles.push({ x: x, y: y, a: Math.random() * 6.283, l: 0 });
+        }
+      },
+      click: function (x, y) {
+        waves.push({ x: x, y: y, t0: performance.now() });
+        mode = (mode + 1) % MODES.length;
+        updateHint();
+      },
+      frame: function (ts) {
+        var t = ts / 1000;
+        var m = pointer;
+        if (!m || ts - lastMove > 2500) {
+          m = reduce ? { x: W / 2, y: H / 2 } : { x: W / 2 + Math.cos(t * 0.37) * W * 0.36, y: H / 2 + Math.sin(t * 0.53) * H * 0.34 };
+        }
+        waves = waves.filter(function (w) { return ts - w.t0 < 2200; });
+        var fade = reduce ? 1 : Math.min(1, (ts - born) / 700);
+        var reach = Math.max(W, H) * 0.55;
+        ctx.lineCap = 'round';
+        for (var i = 0; i < needles.length; i++) {
+          var p = needles[i];
+          var dx = m.x - p.x, dy = m.y - p.y, d = Math.hypot(dx, dy) || 1;
+          var target = Math.atan2(dy, dx);
+          if (mode === 1) target += Math.PI / 2 + 0.25;
+          if (mode === 2) target += Math.PI;
+          if (!reduce) target += Math.sin(t * 0.8 + p.x * 0.01 + p.y * 0.012) * 0.12;
+          var boost = 0;
+          for (var k = 0; k < waves.length; k++) {
+            var w = waves[k], rd = (ts - w.t0) * 0.6;
+            var wd = Math.abs(Math.hypot(p.x - w.x, p.y - w.y) - rd);
+            if (wd < 40) { var b = 1 - wd / 40; if (b > boost) boost = b; target += b * Math.PI; }
+          }
+          var diff = Math.atan2(Math.sin(target - p.a), Math.cos(target - p.a));
+          p.a += reduce ? diff : diff * (0.06 + 0.12 * Math.max(0, 1 - d / 500));
+          var c = Math.max(0, 1 - d / reach);
+          var L = (3 + 11 * c * c + boost * 6) * fade;
+          p.l += (L - p.l) * 0.15;
+          var cx = Math.cos(p.a) * p.l, cy = Math.sin(p.a) * p.l;
+          ctx.strokeStyle = mix('#d6cbef', '#6d3df2', Math.min(1, c * c * 1.4 + boost));
+          ctx.lineWidth = 1.2 + c * 1.3;
+          ctx.beginPath(); ctx.moveTo(p.x - cx, p.y - cy); ctx.lineTo(p.x + cx, p.y + cy); ctx.stroke();
+        }
+      }
+    };
+  }
+
+  // ---------- Shell ----------
+  function resize() {
+    dpr = Math.min(2, window.devicePixelRatio || 1);
+    W = window.innerWidth; H = window.innerHeight;
+    canvas.width = Math.round(W * dpr); canvas.height = Math.round(H * dpr);
+    ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+    if (fx) fx.resize();
+  }
+
+  function setTheme(t, save) {
+    root.setAttribute('data-theme', t);
+    if (save) { try { localStorage.setItem('theme', t); } catch (e) {} }
+    themeMeta.setAttribute('content', t === 'dark' ? '#0e0a1a' : '#f3effb');
+    var next = t === 'dark' ? 'light' : 'dark';
+    themeBtn.innerHTML = t === 'dark' ? ICONS.sun : ICONS.moon;
+    themeBtn.setAttribute('aria-label', 'Switch to ' + next + ' theme');
+    if (fx) fx.stop();
+    fx = t === 'dark' ? Particles() : Needles();
+    // layout depends on theme; measure after styles apply
+    requestAnimationFrame(function () { fx.start(); });
+  }
+
+  themeBtn.addEventListener('click', function () {
+    setTheme(root.getAttribute('data-theme') === 'dark' ? 'light' : 'dark', true);
+  });
+  rebuildBtn.addEventListener('click', function () { if (fx) fx.rebuild(); });
+
+  matchMedia('(prefers-color-scheme: light)').addEventListener('change', function (e) {
+    var saved = null;
+    try { saved = localStorage.getItem('theme'); } catch (err) {}
+    if (!saved) setTheme(e.matches ? 'light' : 'dark', false);
+  });
+
+  window.addEventListener('pointermove', function (e) { pointer = { x: e.clientX, y: e.clientY }; lastMove = performance.now(); });
+  window.addEventListener('pointerup', function (e) { if (e.pointerType !== 'mouse') pointer = null; });
+  window.addEventListener('pointercancel', function () { pointer = null; });
+  document.addEventListener('mouseleave', function () { pointer = null; });
+  canvas.addEventListener('click', function (e) { if (fx) fx.click(e.clientX, e.clientY); });
+
+  var resizeTimer = 0;
+  window.addEventListener('resize', function () { clearTimeout(resizeTimer); resizeTimer = setTimeout(resize, 120); });
+  if (document.fonts && document.fonts.ready) document.fonts.ready.then(function () { if (fx) fx.resize(); });
+
+  resize();
+  setTheme(root.getAttribute('data-theme'), false);
+
+  (function loop(ts) {
+    ctx.clearRect(0, 0, W, H);
+    if (fx) fx.frame(ts);
+    requestAnimationFrame(loop);
+  })(performance.now());
+})();
+</script>
+</body>
+</html>
