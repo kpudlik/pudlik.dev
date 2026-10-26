@@ -37,7 +37,7 @@
 </script>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
   :root {
     --bg: #0e0a1a; --fg: #eee7ff; --muted: #a99cc9; --line: #2c2250;
@@ -126,7 +126,7 @@
   var reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   var W = 0, H = 0, dpr = 1;
-  var pointer = null;
+  var pointer = null, pointerSeq = 0;
 
   // portrait.webp is the dotted portrait on a transparent background. It is cut
   // into TILES x TILES squares and every non-empty square is one particle, so the
@@ -166,6 +166,8 @@
     // The portrait pre-scaled to its on-screen size, so tiles blit 1:1 from it.
     var sprite = document.createElement('canvas'), spriteStep = 1;
     var formed = false, formTimer = 0, busy = false;
+    // Idle tracking: once nothing moves, stop redrawing until something changes.
+    var resting = false, dirty = true, seenSeq = -1;
 
     function computeStage() {
       var cr = card.getBoundingClientRect();
@@ -199,6 +201,7 @@
     }
 
     function assign(jump) {
+      dirty = true;
       var N = targets.length;
       if (!N) return;
       while (ps.length < N) ps.push({ x: Math.random() * W, y: Math.random() * H, vx: 0, vy: 0, tx: 0, ty: 0, a: 0.35, ta: 0.35, k: 0.6, tk: 0.6, d: 0, sx: 0, sy: 0 });
@@ -230,6 +233,7 @@
         formTimer = setTimeout(function () { setFormed(true); }, reduce ? 0 : 500);
       },
       resize: function () {
+        dirty = true;
         computeStage();
         targets = portraitTargets();
         assign(reduce);
@@ -243,6 +247,8 @@
       },
       frame: function () {
         if (!imgReady || !ps.length) return;
+        if (resting && !dirty && pointerSeq === seenSeq) return;
+        seenSeq = pointerSeq;
         var m = pointer, R = 100, ss = spriteStep, moving = [];
         for (var i = 0; i < ps.length; i++) {
           var p = ps[i];
@@ -262,6 +268,11 @@
           if (Math.abs(p.tx - p.x) + Math.abs(p.ty - p.y) > 0.25 || Math.abs(p.tk - p.k) > 0.01) moving.push(p);
           else { p.x = p.tx; p.y = p.ty; p.k = p.tk; p.a = p.ta; }
         }
+        // A pointer move that disturbed nothing leaves the canvas as it is.
+        if (resting && !dirty && !moving.length) return;
+        resting = !moving.length;
+        dirty = false;
+        ctx.clearRect(0, 0, W, H);
         var n;
         if (formed && moving.length < ps.length * 0.4) {
           // Mostly at rest: one blit of the whole portrait, then patch only the
@@ -295,10 +306,10 @@
 
   document.getElementById('rebuild').addEventListener('click', function () { portrait.rebuild(); });
 
-  window.addEventListener('pointermove', function (e) { pointer = { x: e.clientX, y: e.clientY }; });
-  window.addEventListener('pointerup', function (e) { if (e.pointerType !== 'mouse') pointer = null; });
-  window.addEventListener('pointercancel', function () { pointer = null; });
-  document.addEventListener('mouseleave', function () { pointer = null; });
+  window.addEventListener('pointermove', function (e) { pointer = { x: e.clientX, y: e.clientY }; pointerSeq++; });
+  window.addEventListener('pointerup', function (e) { if (e.pointerType !== 'mouse') { pointer = null; pointerSeq++; } });
+  window.addEventListener('pointercancel', function () { pointer = null; pointerSeq++; });
+  document.addEventListener('mouseleave', function () { pointer = null; pointerSeq++; });
 
   var resizeTimer = 0;
   window.addEventListener('resize', function () { clearTimeout(resizeTimer); resizeTimer = setTimeout(resize, 120); });
@@ -308,7 +319,6 @@
   portrait.start();
 
   (function loop() {
-    ctx.clearRect(0, 0, W, H);
     portrait.frame();
     requestAnimationFrame(loop);
   })();
